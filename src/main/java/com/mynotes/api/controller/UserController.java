@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mynotes.api.exception.BusinessException;
 import com.mynotes.api.model.UserData;
+import com.mynotes.api.pojo.AuthenticateRequest;
 import com.mynotes.api.pojo.UserPOJO;
 import com.mynotes.api.service.UserService;
 
@@ -38,10 +39,16 @@ public class UserController {
 		return userService.createUser(user);		
 	}
 
-	@Operation(description = "Get user by email", summary = "Get User", tags = "User")
+	@Operation(description = "Get user", summary = "Get User", tags = "User")
 	@GetMapping(path = "/get-user", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public UserData getUser(@RequestHeader("email") String email) throws BusinessException {
-		return userService.getUser(email);		
+	public UserData getUser(@RequestHeader("Authorization") String authToken) throws BusinessException {
+		return userService.getUser(authToken);		
+	}
+
+	@Operation(description = "Authenticate user and generate token", summary = "Generate token", tags = "User")
+	@PostMapping(path = "/user-authenticate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
+	public Object authenticate(@RequestBody @Valid AuthenticateRequest req) throws BusinessException { 
+		return userService.userAuthenticate(req);
 	}
 
 }

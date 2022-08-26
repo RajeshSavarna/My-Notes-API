@@ -50,6 +50,10 @@ public class ControllerAdviceExceptionHandler extends ResponseEntityExceptionHan
 			status = HttpStatus.UNAUTHORIZED;
 			errorDto.setStatus(HttpStatus.UNAUTHORIZED.toString());
 			break;
+		case 403:
+			status = HttpStatus.FORBIDDEN;
+			errorDto.setStatus(HttpStatus.FORBIDDEN.toString());
+			break;
 		case 404:
 			status = HttpStatus.NOT_FOUND;
 			errorDto.setStatus(HttpStatus.NOT_FOUND.toString());

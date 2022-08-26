@@ -1,6 +1,5 @@
 package com.mynotes.api.logging;
 
-
 import java.time.Instant;
 
 import org.aspectj.lang.ProceedingJoinPoint;

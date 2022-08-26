@@ -1,0 +1,23 @@
+{
+	"_id": "6308c5c59153b8304852cd1b",
+	"name_details": {
+		"salutation": "Mr.",
+		"first_name": "Rajesh",
+		"middle_name": null,
+		"last_name": "Kumar"
+	},
+	"mobile": "8298653959",
+	"email": "rajesh42386@gmail.com",
+	"password": "$2a$10$P3DN3uRKHUiphNv8OTqdAeaTosj/m00s/TB7rO04wMTXlBFFcyknW",
+	"gender": "male",
+	"dob": "04-10-1997",
+	"notes_list": [
+		{
+			"note_id": "6305caf66fb8ae2fdc0517a3",
+			"title": "Movies List",
+			"created_date": "2022-08-24 10:24:41",
+			"modified_date": null,
+			"content": "IronMan"
+		}
+	]
+}

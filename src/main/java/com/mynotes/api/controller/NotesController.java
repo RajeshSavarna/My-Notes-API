@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mynotes.api.configuration.JwtUtilsClass;
 import com.mynotes.api.exception.BusinessException;
 import com.mynotes.api.model.Notes;
 import com.mynotes.api.pojo.NotePOJO;
@@ -29,36 +30,38 @@ import io.swagger.v3.oas.annotations.Operation;
 public class NotesController {
 
 	NotesService notesService;
+	JwtUtilsClass jwtUtils;
 
 	@Autowired
-	public NotesController( NotesService notesService ) {
+	public NotesController( NotesService notesService, JwtUtilsClass jwtUtils ) {
 		this.notesService = notesService;
+		this.jwtUtils = jwtUtils;
 	}
 	
 	@Operation(description = "Insert a new note", summary = "Create Note", tags = "Notes")
 	@PostMapping(path = "/create-note", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes createNote(@RequestBody @Valid NotePOJO note, @RequestHeader("user-id") String userId) throws BusinessException {
-		return notesService.createNote(note, userId);
+	public Notes createNote(@RequestBody @Valid NotePOJO note, @RequestHeader("Authorization") String authToken) throws BusinessException {
+		return notesService.createNote(note, jwtUtils.extractUserId(authToken.substring(7)));
 	}
 	
 	@Operation(description = "Fetch all note of a user", summary = "Get Note", tags = "Notes")
 	@GetMapping(path = "/get-note", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public List<Notes> getNotes(@RequestHeader("user-id") String userId) throws BusinessException {
-		return notesService.getNotes(userId);		
+	public List<Notes> getNotes(@RequestHeader("Authorization") String authToken) throws BusinessException {
+		return notesService.getNotes(jwtUtils.extractUserId(authToken.substring(7)));		
 	}
 	
 	@Operation(description = "Delete existing note", summary = "Delete Note", tags = "Notes")
 	@DeleteMapping(path = "/delete-note", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes deleteNote(@RequestHeader("user-id") String userId, 
+	public Notes deleteNote(@RequestHeader("Authorization") String authToken, 
 			@RequestHeader("note-id") String noteId) throws BusinessException {
-		return notesService.deleteNote(userId, noteId);		
+		return notesService.deleteNote(jwtUtils.extractUserId(authToken.substring(7)), noteId);		
 	}
 	
 	@Operation(description = "Update the existing note", summary = "Update Note", tags = "Notes")
 	@PutMapping(path = "/update-note", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes updateNote(@RequestHeader("user-id") String userId, @RequestHeader("note-id") String noteId, 
+	public Notes updateNote(@RequestHeader("Authorization") String authToken, @RequestHeader("note-id") String noteId, 
 			@RequestBody @Valid NotePOJO note) throws BusinessException {
-		return notesService.updateNote(userId, noteId, note);		
+		return notesService.updateNote(jwtUtils.extractUserId(authToken.substring(7)), noteId, note);		
 	}
 	
 }

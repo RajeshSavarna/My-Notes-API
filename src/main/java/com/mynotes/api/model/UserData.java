@@ -25,6 +25,7 @@ import lombok.ToString;
 	"name_details",
 	"mobile",
 	"email",
+	"password",
 	"gender",
 	"dob",	
 	"notes_list"
@@ -45,6 +46,9 @@ public class UserData {
 	@Indexed(unique = true)
 	@JsonProperty("email")
 	private String email;
+	
+	@JsonProperty("password")
+	private String password;
 
 	@JsonProperty("gender")
 	private String gender;
