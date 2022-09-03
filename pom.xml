@@ -50,12 +50,12 @@
 		</dependency>
 		
 		<!-- For LiveReload server -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency> -->
+		</dependency>
 
 		<!-- Generates metadata about classes in your application that are annotated with @ConfigurationProperties -->
 		<dependency>

@@ -23,10 +23,12 @@ import com.mynotes.api.pojo.NotePOJO;
 import com.mynotes.api.service.NotesService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/v1")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@SecurityRequirement(name = "my-notes-api")
 public class NotesController {
 
 	NotesService notesService;

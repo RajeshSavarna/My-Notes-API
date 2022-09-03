@@ -20,6 +20,7 @@ import com.mynotes.api.pojo.UserPOJO;
 import com.mynotes.api.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/v1")
@@ -39,6 +40,7 @@ public class UserController {
 		return userService.createUser(user);		
 	}
 
+	@SecurityRequirement(name = "my-notes-api")
 	@Operation(description = "Get user", summary = "Get User", tags = "User")
 	@GetMapping(path = "/get-user", produces = MediaType.APPLICATION_JSON_VALUE) 
 	public UserData getUser(@RequestHeader("Authorization") String authToken) throws BusinessException {
