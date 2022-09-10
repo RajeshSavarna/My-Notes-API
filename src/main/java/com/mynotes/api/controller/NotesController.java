@@ -2,6 +2,7 @@ package com.mynotes.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,28 +43,34 @@ public class NotesController {
 	
 	@Operation(description = "Insert a new note", summary = "Create Note", tags = "Notes")
 	@PostMapping(path = "/create-note", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes createNote(@RequestBody @Valid NotePOJO note, @RequestHeader("Authorization") String authToken) throws BusinessException {
-		return notesService.createNote(note, jwtUtils.extractUserId(authToken.substring(7)));
+	public Notes createNote(@RequestBody @Valid NotePOJO note, 
+			/* @RequestHeader("Authorization") String authToken */ HttpServletRequest request) throws BusinessException {
+		return notesService.createNote(note, jwtUtils.extractUserId(request.getHeader("Authorization").substring(7)));
 	}
 	
 	@Operation(description = "Fetch all note of a user", summary = "Get Note", tags = "Notes")
 	@GetMapping(path = "/get-note", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public List<Notes> getNotes(@RequestHeader("Authorization") String authToken) throws BusinessException {
-		return notesService.getNotes(jwtUtils.extractUserId(authToken.substring(7)));		
+	public List<Notes> getNotes(/* @RequestHeader("Authorization") String authToken */ 
+			HttpServletRequest request) throws BusinessException {
+		return notesService.getNotes(jwtUtils.extractUserId(request.getHeader("Authorization").substring(7)));		
 	}
 	
 	@Operation(description = "Delete existing note", summary = "Delete Note", tags = "Notes")
 	@DeleteMapping(path = "/delete-note", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes deleteNote(@RequestHeader("Authorization") String authToken, 
+	public Notes deleteNote(/* @RequestHeader("Authorization") String authToken, */
+			HttpServletRequest request,
 			@RequestHeader("note-id") String noteId) throws BusinessException {
-		return notesService.deleteNote(jwtUtils.extractUserId(authToken.substring(7)), noteId);		
+		return notesService.deleteNote(jwtUtils.extractUserId(request.getHeader("Authorization").substring(7)), noteId);		
 	}
 	
 	@Operation(description = "Update the existing note", summary = "Update Note", tags = "Notes")
 	@PutMapping(path = "/update-note", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
-	public Notes updateNote(@RequestHeader("Authorization") String authToken, @RequestHeader("note-id") String noteId, 
+	public Notes updateNote(
+			/* @RequestHeader("Authorization") String authToken, */ 
+			HttpServletRequest request,
+			@RequestHeader("note-id") String noteId, 
 			@RequestBody @Valid NotePOJO note) throws BusinessException {
-		return notesService.updateNote(jwtUtils.extractUserId(authToken.substring(7)), noteId, note);		
+		return notesService.updateNote(jwtUtils.extractUserId(request.getHeader("Authorization").substring(7)), noteId, note);		
 	}
 	
 }

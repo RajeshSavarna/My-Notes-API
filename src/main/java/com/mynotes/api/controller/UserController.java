@@ -1,6 +1,7 @@
 package com.mynotes.api.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,8 +43,9 @@ public class UserController {
 	@SecurityRequirement(name = "my-notes-api")
 	@Operation(description = "Get user", summary = "Get User", tags = "User")
 	@GetMapping(path = "/get-user", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public UserData getUser(@RequestHeader("Authorization") String authToken) throws BusinessException {
-		return userService.getUser(authToken);		
+	public UserData getUser(
+			/* @RequestHeader("Authorization") String authToken, */ HttpServletRequest request) throws BusinessException {
+		return userService.getUser(request.getHeader("Authorization"));		
 	}
 
 	@Operation(description = "Authenticate user and generate token", summary = "Generate token", tags = "User")
